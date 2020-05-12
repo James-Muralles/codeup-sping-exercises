@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="partials/fragments :: head">
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="partials/fragments :: nav-bar"></div>
+
+<!--show only one post, the title and the body-->
+    <p th:text="${post.title}" />
+    <p th:text="${post.body}"/>
+
+<div th:replace="partials/fragments :: scripts"></div>
+</body>
+</html>

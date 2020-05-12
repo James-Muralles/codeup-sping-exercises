@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="partials/fragments :: head('NO')"></head>
+<body>
+<nav th:replace="partials/fragments :: nav-bar"></nav>
+
+
+<!--iterate through the posts attribute value which is = to the posts ArrayList
+Called each item post. Show the post.title and post.body-->
+
+    <div class="card mb-5" style="width: 18rem;"  th:each="post : ${posts}">
+    <div class="card-body" >
+        <h5 class="card-title" th:text="${post.title}"></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text" th:text="${post.body}"></p>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
+
+<div th:replace="partials/fragments :: scripts"></div>
+
+</body>
+</html>
