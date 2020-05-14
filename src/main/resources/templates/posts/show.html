@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="partials/fragments :: head">
+<head th:replace="partials/fragments :: head('SHOW')">
 
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,6 +11,12 @@
 <!--show only one post, the title and the body-->
     <p th:text="${post.title}" />
     <p th:text="${post.body}"/>
+<form th:action="@{|/posts/${post.id}/delete|}" th:method="POST">
+    <button class="btn-dark rounded">Delete Post</button>
+</form>
+<form th:action="@{|/posts/${post.id}/edit|}" th:method="POST">
+    <button class="btn-dark rounded">Edit Post</button>
+</form>
 
 <div th:replace="partials/fragments :: scripts"></div>
 </body>
