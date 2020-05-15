@@ -1,24 +1,25 @@
 package com.codeup.springblog.controller;
 
-import com.codeup.springblog.Repositories.BookRepository;
 import com.codeup.springblog.Repositories.PostsRepository;
-import com.codeup.springblog.models.Book;
+import com.codeup.springblog.Repositories.UserRepository;
 import com.codeup.springblog.models.Post;
 
+import com.codeup.springblog.models.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 @Controller
 public class PostController {
     private final PostsRepository postRepo;
+    private final UserRepository userRepo;
 
-    public PostController(PostsRepository postRepo) {
+    public PostController(PostsRepository postRepo, UserRepository userRepo) {
         this.postRepo = postRepo;
+        this.userRepo = userRepo;
+
     }
+
 
 //    @GetMapping("/posts")// type this in th url
 //
@@ -37,6 +38,22 @@ public class PostController {
 //        return "posts/index";// return the index html from the posts directory
 
     //    }
+
+    @GetMapping("/posts")
+    public String getAllPosts(Model model) {
+        model.addAttribute("posts", postRepo.findAll());
+
+        return "posts/index";
+    }
+
+    @GetMapping("/post/{id}")
+    public String getPost(Model model, @PathVariable long id) {
+        model.addAttribute("post", postRepo.getOne(id));
+        model.addAttribute("user", userRepo.getOne((long) 1));
+
+        return "posts/show";
+    }
+
     @GetMapping("/posts/create")
     public String showCreate() {
         return "posts/create";
@@ -50,6 +67,8 @@ public class PostController {
         Post post = new Post();
         post.setTitle(titleParam);
         post.setBody(bodyParam);
+        User user = userRepo.getOne((long) 1);
+        post.setUser(user);
         this.postRepo.save(post);
         return "redirect:/posts";
     }
@@ -75,22 +94,37 @@ public class PostController {
         postRepo.save(postToEdit);
 
         return ("redirect:/posts");
-
     }
 
-    @GetMapping("/posts")
-    public String getPosts(Model model) {
-        model.addAttribute("posts", postRepo.findAll());
-
-        return "posts/index";
+    @RequestMapping("posts/search")
+    public String searchForPosts(@RequestParam("search") String search, Model model) {
+        model.addAttribute("posts", postRepo.findByTitleContaining(search));
+        model.addAttribute("search", search);
+        return "/posts/search-index";
     }
 
-    @GetMapping("/post/{id}")
-    public String getPost(Model model, @PathVariable long id) {
-        model.addAttribute("post", postRepo.findById(id).get());
+//        @PostMapping("/posts/search")
+//                public String searchPost(@RequestParam(name="search") String search, Model model){
+//            model.addAttribute("posts", postRepo.findByTitleContaining(search));
+//
+//
+//            return "redirect:posts/search";
+//        }
 
-        return "posts/show";
-    }
+//        @WebServlet(name = "controllers.AdsSearchServlet", urlPatterns = "/ads/search")
+//        public class AdsSearchServlet extends HttpServlet {
+//            protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//                String search = request.getParameter("search");
+//                try{
+//                    request.setAttribute("ads", DaoFactory.getAdsDao().findAdsByName(search));
+//                    request.getRequestDispatcher("/WEB-INF/ads/viewsearch.jsp").forward(request, response);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        }
 
 
 //    @GetMapping("/posts/{id}")

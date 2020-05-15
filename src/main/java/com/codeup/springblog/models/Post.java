@@ -13,12 +13,25 @@ public class Post {
     @Column
     private String body;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+
     public Post(String title, String body) {
         this.title = title;
         this.body = body;
     }
 
     public Post() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {

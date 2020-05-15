@@ -9,14 +9,34 @@
 <div th:replace="partials/fragments :: nav-bar"></div>
 
 <!--show only one post, the title and the body-->
-    <p th:text="${post.title}" />
-    <p th:text="${post.body}"/>
-<form th:action="@{|/posts/${post.id}/delete|}" th:method="POST">
-    <button class="btn-dark rounded">Delete Post</button>
-</form>
-<form th:action="@{|/posts/${post.id}/edit|}" th:method="POST">
-    <button class="btn-dark rounded">Edit Post</button>
-</form>
+<div class="container d-flex align-items-center" style="height: 100vh">
+<div class="card m-auto" style="width: 18rem;">
+    <div class="card-body" >
+        <a th:href="@{'/post/'+${post.id}}"><h5 class="card-title" th:text="${post.title}"></h5></a>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text" th:text="${post.body}"></p>
+        <p th:text="${user.email}"></p>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link"><h1>Another link</h1></a>
+        <form class="float-left" th:action="@{|/posts/${post.id}/delete|}" th:method="POST">
+            <button class="btn-dark rounded">Delete Post</button>
+        </form>
+        <form th:action="@{|/posts/${post.id}/edit|}" th:method="GET">
+            <button class="btn-dark rounded">Edit Post</button>
+        </form>
+    </div>
+</div>
+</div>
+
+
+<!--    <p th:text="${post.title}" />-->
+<!--    <p th:text="${post.body}"/>-->
+<!--<form th:action="@{|/posts/${post.id}/delete|}" th:method="POST">-->
+<!--    <button class="btn-dark rounded">Delete Post</button>-->
+<!--</form>-->
+<!--<form th:action="@{|/posts/${post.id}/edit|}" th:method="POST">-->
+<!--    <button class="btn-dark rounded">Edit Post</button>-->
+<!--</form>-->
 
 <div th:replace="partials/fragments :: scripts"></div>
 </body>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="partials/fragments :: head('NO')"></head>
+<head th:replace="partials/fragments :: head('ALL POSTS')"></head>
 <body>
 <nav th:replace="partials/fragments :: nav-bar"></nav>
 
@@ -8,21 +8,35 @@
 <!--iterate through the posts attribute value which is = to the posts ArrayList
 Called each item post. Show the post.title and post.body-->
 
-    <div class="card mb-5" style="width: 18rem;"  th:each="post : ${posts}">
-    <div class="card-body" >
-        <h5 class="card-title" th:text="${post.title}"></h5>
-        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-        <p class="card-text" th:text="${post.body}"></p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
-        <form class="float-left" th:action="@{|/posts/${post.id}/delete|}" th:method="POST">
-        <button class="btn-dark rounded">Delete Post</button>
-        </form>
-        <form th:action="@{|/posts/${post.id}/edit|}" th:method="GET">
-            <button class="btn-dark rounded">Edit Post</button>
-        </form>
+<!--        <div class="col-sm-12 col-lg-6">-->
+<!--            <div class="card h-100">-->
+
+
+<div class="container-fluid content-row">
+    <div class="row">
+        <div class="d-flex flex-row flex-wrap justify-content-around  overflow-auto" style="height: 100vh">
+            <div class="col-3"></div>
+            <div class="card text-white bg-dark mb-3 border-success col" style="min-width: 18rem ; height: 300px"
+                 th:each="post : ${posts}">
+                <div class="card-body">
+                    <a th:href="@{'/post/'+${post.id}}"><h5 class="card-title" th:text="${post.title}"></h5></a>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text" th:text="${post.body}"></p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                    <form class="float-left" th:action="@{|/posts/${post.id}/delete|}" th:method="POST">
+                        <button class="btn-dark rounded">Delete Post</button>
+                    </form>
+                    <form th:action="@{|/posts/${post.id}/edit|}" th:method="GET">
+                        <button class="btn-dark rounded">Edit Post</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<nav th:replace="partials/fragments :: footer"></nav>
 
 <div th:replace="partials/fragments :: scripts"></div>
 

@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:fragment="head('EDIT')">
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css}">
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="partials/fragments :: head('CREATE POST')">
+
 </head>
 <body>
-<nav th:fragment="nav-bar" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav th:replace="partials/fragments :: nav-bar" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +40,7 @@
     </div>
 </nav>
 
-
+<div class="wrapper m-auto" style="width: 50%">
 <form th:action="@{|/posts/${post.id}/edit|}" th:method="POST">
     <div class="form-group">
 
@@ -56,12 +54,11 @@
 
     <input type="submit" class="btn btn-block btn-primary">
 </form>
+</div>
 
 
-<div th:fragment="scripts">
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<div th:replace="partials/fragments :: scripts">
+
 </div>
 </body>
 </html>
