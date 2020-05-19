@@ -5,6 +5,7 @@ import com.codeup.springblog.Repositories.UserRepository;
 import com.codeup.springblog.models.Post;
 
 import com.codeup.springblog.models.User;
+import com.codeup.springblog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostsRepository postRepo;
     private final UserRepository userRepo;
+    private final EmailService emailService;
 
-    public PostController(PostsRepository postRepo, UserRepository userRepo) {
+    public PostController(PostsRepository postRepo, UserRepository userRepo, EmailService emailService) {
         this.postRepo = postRepo;
         this.userRepo = userRepo;
-
+        this.emailService = emailService;
     }
 
 
@@ -55,22 +57,38 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String showCreate() {
+//    public String showCreate() {
+//        return "posts/create";
+//    }
+
+    public String showCreate(Model model) {
+        Post post = new Post();
+        User user = userRepo.getOne(1L);
+        post.setUser(user);
+        model.addAttribute("post", post);
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    public String newPost(
-            @RequestParam(name = "title") String titleParam,
-            @RequestParam(name = "body") String bodyParam
+    public String newPost(@ModelAttribute Post post
+//            @RequestParam(name = "title") String titleParam,
+//            @RequestParam(name = "body") String bodyParam
     ) {
-        Post post = new Post();
-        post.setTitle(titleParam);
-        post.setBody(bodyParam);
-        User user = userRepo.getOne((long) 1);
-        post.setUser(user);
-        this.postRepo.save(post);
-        return "redirect:/posts";
+        try {
+
+
+//        Post post = new Post();
+//        post.setTitle(titleParam);
+//        post.setBody(bodyParam);
+            User user = userRepo.getOne(1L);
+            post.setUser(user);
+            this.postRepo.save(post);
+            emailService.prepareAndSend(post, "You created a post", "Title:" + post.getTitle() + "\nDescription:" + post.getBody());
+            return "redirect:/posts";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            return "redirect:/login";
     }
 
     @PostMapping("/posts/{id}/delete")

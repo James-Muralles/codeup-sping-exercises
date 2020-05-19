@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="partials/fragments :: head('CREATE POST')">
+<head th:fragment="head('Sign Up)">
 
 </head>
 <body>
-<nav th:replace="partials/fragments :: nav-bar" class="navbar navbar-expand-lg navbar-light bg-light">
+<div class="container overflow-auto"  style="height: 100vh">
+
+<nav th:fragment="nav-bar" class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,26 +41,22 @@
         </form>
     </div>
 </nav>
+    <h1>Create an account</h1>
+    <form th:action="@{/sign-up}" method="POST" th:object="${user}">
+        <label for="username">Username</label>
+        <input id="username" th:field="*{username}" />
 
-<div class="wrapper m-auto" style="width: 50%">
-<form th:action="@{|/posts/${post.id}/edit|}" th:method="POST">
-    <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" th:field="*{email}" />
 
-        <label for="title">Title</label>
-        <input id="title" name="title" class="form-control" type="text" th:value="${post.title}">
-    </div>
-    <div class="form-group">
-        <label for="body">Body</label>
-        <textarea id="body" name="body" class="form-control" type="text" th:text="${post.body}"></textarea>
-    </div>
+        <label for="password">Password</label>
+        <input id="password" type="password" th:field="*{password}" />
 
-    <input type="submit" class="btn btn-block btn-primary">
-</form>
-</div>
-
-
-<div th:replace="partials/fragments :: scripts">
+        <input value="Sign me up!" type="submit" />
+    </form>
 
 </div>
+<div th:fragment="scripts"></div>
+
 </body>
 </html>

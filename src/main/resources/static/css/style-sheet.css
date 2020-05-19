@@ -2,6 +2,7 @@ body {
     /*height: 100vh;*/
     /*width: 100vh;*/
     background-color: black;
+    box-sizing: border-box;
 }
 .nav-link{
     color: #4CA746;
